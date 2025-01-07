@@ -1,0 +1,248 @@
+html, body {
+    height: 100%; /* Высота страницы заполняет весь экран */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1; /* Заставляет main занимать всё доступное пространство между header и footer */
+    padding: 20px; /* Чтобы добавить немного отступов */
+}
+
+footer {
+    background-color: #ffb25a;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: auto; /* Автоматически смещает футер вниз */
+}
+
+#active {
+    color: tomato;
+}
+
+header {
+    background-color: #ffb25a;
+    color: white;
+    padding: 10px 20px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+}
+
+.navbar a:hover {
+    background-color: #ffc684;
+    border-radius: 5px;
+}
+
+.hero {
+    text-align: center;
+    background-color: #f4f4f4;
+    padding: 50px 20px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Автоматическая подгонка колонок по ширине экрана */
+    gap: 60px;
+}
+
+.product-card {
+    border: 1px solid #d49c5b;
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.3s ease, border-width 0.3s ease; /* Плавное изменение трансформации и границы */
+}
+
+.product-card:hover {
+    transform: scale(1.05); /* Увеличиваем размер карточки на 5% */
+    border-width: 3px; /* Толще граница при наведении */
+}
+
+.product-card img {
+    width: 100%; /* Изображение растягивается по ширине карточки */
+    height: auto; /* Сохраняются пропорции изображения */
+    object-fit: contain; /* Сохраняет пропорции изображения без обрезки */
+}
+
+/* Ограничиваем размер изображений в слайдере */
+.slider {
+    max-width: 100%; /* Ограничиваем ширину контейнера */
+    overflow: hidden; /* Прячем всё, что выходит за пределы */
+}
+
+.slides {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.slide img {
+    width: 100%; /* Изображение занимает всю ширину контейнера */
+    height: auto; /* Сохраняем пропорции изображения */
+    display: block;
+    object-fit: cover; /* Масштабируем изображение по контейнеру */
+}
+
+.add-to-cart {
+    background-color: #ffb25a; /* Рыжий цвет */
+    color: white; /* Белый текст */
+    border: 2px solid #ffb25a; /* Рыжая обводка */
+    padding: 10px 20px; /* Отступы внутри кнопки */
+    font-size: 16px;
+    text-transform: uppercase; /* Преобразование текста в верхний регистр */
+    cursor: pointer; /* Курсор в виде руки при наведении */
+    border-radius: 5px; /* Слегка скругленные углы */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.1s; /* Плавный переход */
+}
+
+.add-to-cart:hover {
+    background-color: white; /* Белый фон при наведении */
+    color: #ffb25a; /* Рыжий текст */
+    border-color: #ffb25a; /* Рыжая обводка */
+}
+
+.add-to-cart:active {
+    transform: scale(0.95); /* Эффект нажатия - уменьшение кнопки */
+}
+
+/* Стили для модального окна */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal:not(.hidden) {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+#modal-image {
+    max-width: 100%;
+    max-height: 300px;
+    width: auto;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-button:hover {
+    color: #e74c3c;
+}
+
+#modal-full-description {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+#modal-quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+#decrease-quantity, #increase-quantity {
+    background-color: #ffb25a;
+    color: white;
+    border: 2px solid #ffb25a;
+    font-size: 18px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+#decrease-quantity:hover, #increase-quantity:hover {
+    background-color: white;
+    color: #ffb25a;
+    border-color: #ffb25a;
+}
+
+#add-to-cart-modal {
+    background-color: #ffb25a;
+    color: white;
+    border: 2px solid #ffb25a;
+    font-size: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px 20px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.1s;
+}
+
+#add-to-cart-modal:hover {
+    background-color: white;
+    color: #ffb25a;
+    border-color: #ffb25a;
+}
+
+#add-to-cart-modal:active {
+    transform: scale(0.95);
+}
+
+/* Стили для логотипа */
+.logo {
+    display: flex; /* Используем flexbox для выравнивания */
+    align-items: center; /* Вертикальное выравнивание */
+    gap: 10px; /* Промежуток между изображением и текстом */
+}
+
+.logo-image {
+    width: 40px; /* Ширина логотипа */
+    height: auto; /* Высота будет пропорциональна ширине */
+}

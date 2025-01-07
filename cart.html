@@ -1,0 +1,42 @@
+<!-- cart.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина - Morax World</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="images/logo.png" alt="Логотип Morax World" class="logo-image">
+                Morax World
+            </div>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="shop.html">Магазин</a></li>
+                <li><a href="cart.html" id="active">Корзина</a></li>
+                <li><a href="Authorization.html">Авторизация </a></li> 
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Корзина</h1>
+        <div id="cart-items">
+            <p>Ваша корзина пуста</p>
+        </div>
+        <button class="add-to-cart" id="clear-cart">Очистить корзину</button>
+        <p id="cart-total"></p>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Morax World. Все права защищены.</p>
+        <p>Email: moraxworld@mystore.com | Телефон: +7 (666) 666-66-60</p>
+    </footer>
+
+    <script src="js/cart.js"></script>
+</body>
+</html>

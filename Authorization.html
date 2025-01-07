@@ -1,0 +1,131 @@
+<!DOCTYPE html> 
+<html lang="ru"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Магазин - Morax World</title> 
+    <link rel="stylesheet" href="css/style.css"> 
+    <style>
+        main {
+            display: flex;
+            justify-content: center; /* Центрирование по горизонтали */
+            align-items: center; /* Центрирование по вертикали */
+            height: 100vh; /* Высота экрана */
+            margin: 0; /* Убираем отступы по умолчанию */
+            font-family: Arial, sans-serif; /* Задаем шрифт */
+            flex-direction: column;
+        }
+        .auth-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .auth-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #FF5733; /* Рыжий цвет */
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+        .btn:hover {
+            background-color: #FF4500; /* Более темный рыжий при наведении */
+        }
+
+    </style>
+</head> 
+<body> 
+    <header> 
+        <nav class="navbar"> 
+            <div class="logo"> 
+                <img src="images/logo.png" alt="Логотип Morax World" class="logo-image"> 
+                Morax World 
+            </div> 
+            <ul> 
+                <li><a href="index.html">Главная</a></li> 
+                <li><a href="shop.html">Магазин</a></li> 
+                <li><a href="cart.html" id="cart-link">Корзина (<span id="cart-count">0</span>)</a></li> 
+                <li><a href="Authorization.html" id="active">Авторизация</a></li> 
+            </ul> 
+        </nav> 
+    </header> 
+
+    <main>
+        <div class="auth-container">
+            <h2>Авторизация</h2>
+            <!-- Форма авторизации -->
+            <form action="login_action.html" method="POST" id="login-form">
+                <div>
+                    <label for="username">Имя пользователя</label>
+                    <input type="text" id="username" name="username" placeholder="Введите имя пользователя" required>
+                </div>
+                <div>
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" name="password" placeholder="Введите пароль" required>
+                </div>
+                <button type="submit" class="btn">Войти</button>
+            </form>
+        </div>
+        <div class="auth-container">
+            <h2>Регистрация</h2>
+            <!-- Форма регистрации -->
+            <form action="login_action.html" method="POST" id="login-form">
+                <div>
+                    <label for="username">Имя пользователя</label>
+                    <input type="text" id="username" name="username" placeholder="Введите имя пользователя" required>
+                </div>
+                <div>
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" name="password" placeholder="Введите пароль" required>
+                </div>
+                <button type="submit" class="btn">Зарегестриваться</button>
+            </form>
+        </div>
+    </main> 
+
+    <footer> 
+        <p>&copy; 2025 Morax World. Все права защищены.</p> 
+        <p>Email: moraxworld@mystore.com | Телефон: +7 (666) 666-66-60</p> 
+    </footer> 
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Обновление счетчика корзины при загрузке страницы
+            updateCartCount();
+
+            // Функция для обновления количества товаров в корзине
+            function updateCartCount() {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const cartCount = cart.reduce((total, product) => total + product.quantity, 0);
+                document.getElementById('cart-count').textContent = cartCount;
+            }
+        });
+    </script>
+</body> 
+</html>

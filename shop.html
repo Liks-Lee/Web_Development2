@@ -1,0 +1,55 @@
+<!DOCTYPE html> 
+<html lang="ru"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Магазин - Morax World</title> 
+    <link rel="stylesheet" href="css/style.css"> 
+</head> 
+<body> 
+    <header> 
+        <nav class="navbar"> 
+            <div class="logo"> 
+                <img src="images/logo.png" alt="Логотип Morax World" class="logo-image"> 
+                Morax World 
+            </div> 
+            <ul> 
+                <li><a href="index.html">Главная</a></li> 
+                <li><a href="shop.html" id="active">Магазин</a></li> 
+                <li><a href="cart.html" id="cart-link">Корзина (<span id="cart-count">0</span>)</a></li> 
+                <li><a href="Authorization.html">Авторизация </a></li> 
+            </ul> 
+        </nav> 
+    </header> 
+ 
+    <main> 
+        <h1>Наши товары</h1> 
+        <div class="product-grid" id="product-grid"></div> 
+    </main> 
+ 
+    <!-- Модальное окно --> 
+    <div id="modal" class="modal hidden"> 
+        <div class="modal-content"> 
+            <span class="close-button">&times;</span> 
+            <img id="modal-image" src="" alt="Изображение товара"> 
+            <h2 id="modal-title">Название товара</h2> 
+            <p id="modal-description">Описание товара</p> <!-- Краткое описание товара --> 
+            <p id="modal-full-description" >Расширенное описание товара</p> <!-- Расширенное описание товара --> 
+            <p id="modal-price">Цена товара</p> 
+            <div id="modal-quantity"> 
+                <button id="decrease-quantity">-</button> 
+                <span id="quantity-value">1</span> 
+                <button id="increase-quantity">+</button> 
+            </div> 
+            <button id="add-to-cart-modal">Добавить в корзину</button> 
+        </div> 
+    </div> 
+ 
+    <footer> 
+        <p>&copy; 2025 Morax World. Все права защищены.</p> 
+        <p>Email: moraxworld@mystore.com | Телефон: +7 (666) 666-66-60</p> 
+    </footer> 
+ 
+    <script src="js/script.js"></script> 
+</body> 
+</html>

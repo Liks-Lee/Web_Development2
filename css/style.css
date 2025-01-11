@@ -269,3 +269,7 @@ header {
     width: 40px; /* Ширина логотипа */
     height: auto; /* Высота будет пропорциональна ширине */
 }
+
+.hidden {
+    display: none;
+}

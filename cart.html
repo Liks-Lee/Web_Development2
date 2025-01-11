@@ -9,6 +9,56 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
+    <style>
+        #cart-table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        #cart-table th, #cart-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #cart-table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        #cart-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        #cart-table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        #cart-table td button {
+            background-color: #FF5733;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        #cart-table td button:hover {
+            background-color: #e04e2e;
+        }
+
+        .remove-item {
+            background-color: #FF5733;
+            color: white;
+            padding: 4px 8px;
+            cursor: pointer;
+            border-radius: 4px; 
+            border-color: #ffffff;
+        }
+
+    </style>
 </head>
 <body>
     <header>
@@ -28,12 +78,23 @@
 
     <main>
         <h1>Корзина</h1>
-        <div id="cart-items">
-            <p>Ваша корзина пуста.</p>
-        </div>
-        <button class="add-to-cart" id="clear-cart">Очистить корзину</button>
+        <table id="cart-table">
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Количество</th>
+                    <th>Цена</th>
+                    <th>Действие</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items">
+                <!-- Товары будут добавлены через JavaScript -->
+            </tbody>
+        </table>
         <p id="cart-total"></p>
+        <button class="add-to-cart" id="clear-cart">Очистить корзину</button>
     </main>
+    
 
     <footer>
         <p>&copy; 2025 Morax World. Все права защищены.</p>

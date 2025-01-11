@@ -23,7 +23,7 @@ window.onload = function () {
     });
 
     if (cart.length === 0) {
-        cartItemsContainer.innerHTML = '<p>Ваша корзина пуста.</p>';
+        cartItemsContainer.innerHTML = '<tr><td colspan="4">Ваша корзина пуста.</td></tr>';
         cartTotal.textContent = '';
     } else {
         cartItemsContainer.innerHTML = ''; // Очистить корзину
@@ -31,20 +31,27 @@ window.onload = function () {
 
         // Создаем список товаров в корзине
         cart.forEach((product, index) => {
-            const productElement = document.createElement('div');
-            productElement.classList.add('cart-item');
-            productElement.innerHTML = `
-                <span>${product.name} - ${product.price} ₽ x ${product.quantity}</span>
-                <button class="remove-item" data-index="${index}">Удалить</button>`;
+            const productRow = document.createElement('tr'); // Строка для товара
+
+            // Создаем ячейки для каждого столбца (Товар, Количество, Цена, Действие)
+            productRow.innerHTML = `
+                <td>${product.name}</td>
+                <td>${product.quantity}</td>
+                <td>${product.price} ₽</td>
+                <td><button class="remove-item" data-index="${index}">Удалить</button></td>
+            `;
 
             // Слушаем кнопку удаления товара
-            const removeButton = productElement.querySelector('.remove-item');
+            const removeButton = productRow.querySelector('.remove-item');
             removeButton.addEventListener('click', function () {
                 removeFromCart(product.id); // Удаляем товар по его id
             });
 
-            cartItemsContainer.appendChild(productElement);
-            total += product.price * product.quantity; // Подсчитываем общую стоимость
+            // Добавляем строку в таблицу
+            cartItemsContainer.appendChild(productRow);
+
+            // Подсчитываем общую стоимость корзины
+            total += product.price * product.quantity;
         });
 
         cartTotal.textContent = `Общая стоимость: ${total} ₽`;
@@ -81,6 +88,8 @@ function clearCart() {
     saveUserCart([]); // Очищаем корзину текущего пользователя
     window.location.reload(); // Перезагружаем страницу, чтобы очистить корзину
 }
+
+
 
 // Функция для обновления шапки
 function updateHeader() {

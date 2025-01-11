@@ -5,15 +5,16 @@ let users = JSON.parse(localStorage.getItem('users')) || [];
 let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Список товаров
-    const products = [
+    // Список товаров, храним в локальном хранилище
+    let products = JSON.parse(localStorage.getItem('products')) || [
         {
             id: 1,
             name: 'Товар 1',
             description: 'Описание товара 1.',
             fullDescription: 'Это расширенное описание товара один. Тут рассказывается о характеристиках и преимуществах.',
             price: 1500,
-            image: 'images/product1.jpg'
+            image: 'images/product1.jpg',
+            quantityAvailable: 10 // Количество в наличии
         },
         {
             id: 2,
@@ -21,7 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
             description: 'Описание товара 2.',
             fullDescription: 'Это расширенное описание товара два. Тут рассказывается о характеристиках и преимуществах.',
             price: 1500,
-            image: 'images/product2.jpg'
+            image: 'images/product2.jpg',
+            quantityAvailable: 15 // Количество в наличии
         },
         {
             id: 3,
@@ -29,7 +31,8 @@ document.addEventListener("DOMContentLoaded", function () {
             description: 'Описание товара 3.',
             fullDescription: 'Это расширенное описание товара три. Тут рассказывается о характеристиках и преимуществах.',
             price: 1500,
-            image: 'images/product3.jpg'
+            image: 'images/product3.jpg',
+            quantityAvailable: 10 // Количество в наличии
         }
     ];
 
@@ -47,7 +50,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 <h2>${product.name}</h2>
                 <p>${product.description}</p>
                 <p>Цена: ${product.price} ₽</p>
-                <button class="add-to-cart">Добавить</button>
+                <p>Осталось в наличии: ${product.quantityAvailable}</p>
+                <button class="add-to-cart" ${product.quantityAvailable <= 0 ? 'disabled' : ''}>Добавить</button>
             `;
             productCard.querySelector('.add-to-cart').addEventListener('click', () => addToCart(product));
             productCard.addEventListener('click', (event) => {
@@ -55,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     showModal(product);
                 }
             });
-            
+
             productGrid.appendChild(productCard);
         });
     }
@@ -67,38 +71,46 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('modal-title').textContent = product.name;
         document.getElementById('modal-description').textContent = product.description;
         document.getElementById('modal-full-description').textContent = product.fullDescription; // Расширенное описание товара
-    
+
         // Убираем класс hidden, чтобы расширенное описание стало видимым
         document.getElementById('modal-full-description').classList.remove('hidden');
-        
+
         document.getElementById('modal-price').textContent = `Цена: ${product.price} ₽`;
-    
+
         // Открываем модальное окно
         modal.classList.remove('hidden');
-        
+
         // Обработчик кнопки закрытия
         document.querySelector('.close-button').addEventListener('click', () => {
             modal.classList.add('hidden');
         });
-        
+
         // Обработчик кнопок увеличения/уменьшения количества
         let quantity = 1;
+        document.getElementById('quantity-value').textContent = quantity;
+
         document.getElementById('increase-quantity').addEventListener('click', () => {
-            quantity++;
-            document.getElementById('quantity-value').textContent = quantity;
+            if (quantity < product.quantityAvailable) {  // Запрещаем увеличить количество, если его нет в наличии
+                quantity++;
+                document.getElementById('quantity-value').textContent = quantity;
+            }
         });
-        
+
         document.getElementById('decrease-quantity').addEventListener('click', () => {
             if (quantity > 1) {
                 quantity--;
                 document.getElementById('quantity-value').textContent = quantity;
             }
         });
-    
+
         // Обработчик кнопки "Добавить в корзину"
         document.getElementById('add-to-cart-modal').addEventListener('click', () => {
-            addToCart(product, quantity);
-            modal.classList.add('hidden');
+            if (quantity > product.quantityAvailable) {
+                alert('Невозможно добавить больше товара, чем есть в наличии.');
+            } else {
+                addToCart(product, quantity);
+                modal.classList.add('hidden');
+            }
         });
     }
 
@@ -123,6 +135,10 @@ document.addEventListener("DOMContentLoaded", function () {
             alert('Войдите в аккаунт, чтобы добавить товар в корзину.');
             return;
         }
+        if (quantity > product.quantityAvailable) {
+            alert('Невозможно добавить больше товара, чем есть в наличии.');
+            return;
+        }
         const cart = getUserCart();
         const existingProduct = cart.find(item => item.id === product.id);
         if (existingProduct) {
@@ -131,8 +147,19 @@ document.addEventListener("DOMContentLoaded", function () {
             product.quantity = quantity;
             cart.push(product);
         }
+
+        // Обновляем количество товара на складе
+        const productIndex = products.findIndex(item => item.id === product.id);
+        if (productIndex !== -1) {
+            products[productIndex].quantityAvailable -= quantity;
+        }
+
+        // Сохраняем обновленный список товаров
+        localStorage.setItem('products', JSON.stringify(products));
+
         saveUserCart(cart);
         updateCartCount();
+        displayProducts();  // Обновляем отображение товаров, чтобы показать актуальные остатки
     }
 
     // Функция для обновления количества товаров в корзине
@@ -171,29 +198,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     }
-    
-        // Показываем форму обратной связи, если пользователь авторизован
-    const contactFormContainer = document.getElementById('contact-form-container');
-    if (currentUser) {
-        contactFormContainer.classList.remove('hidden');
-    }
 
-    // Обработчик отправки формы обратной связи
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-
-            const name = document.getElementById('contact-name').value;
-            const email = document.getElementById('contact-email').value;
-            const message = document.getElementById('contact-message').value;
-
-            alert(`Сообщение отправлено!\n\nИмя: ${name}\nEmail: ${email}\nСообщение: ${message}`);
-            // Здесь можно добавить логику для отправки данных на сервер или сохранения в локальном хранилище
-        });
-    }
-
-        // Регистрация
+    // Регистрация
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
         registerForm.addEventListener('submit', (event) => {
@@ -232,15 +238,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Событие выхода из аккаунта
-    const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function () {
-            localStorage.removeItem('currentUser');
-            alert('Вы вышли из аккаунта');
-            location.href = 'Authorization.html';
-        });
-    }
     // Проверка состояния авторизации при загрузке страницы
     window.onload = function () {
         updateHeader();
@@ -249,11 +246,11 @@ document.addEventListener("DOMContentLoaded", function () {
             updateCart();
         }
     };
+
     // Загружаем товары при загрузке страницы
     displayProducts();
 
     // Проверка состояния авторизации при загрузке страницы
     updateHeader();
     updateCartCount();
-    updateCart();
 });

@@ -199,6 +199,25 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // Показываем форму обратной связи, если пользователь авторизован
+    const contactFormContainer = document.getElementById('contact-form-container');
+    if (currentUser) {
+        contactFormContainer.classList.remove('hidden');
+    }
+    
+    // Обработчик отправки формы обратной связи
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const message = document.getElementById('contact-message').value;
+            alert(`Сообщение отправлено!\n\nИмя: ${name}\nEmail: ${email}\nСообщение: ${message}`);
+            // Здесь можно добавить логику для отправки данных на сервер или сохранения в локальном хранилище
+        });
+    }
+
     // Регистрация
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {

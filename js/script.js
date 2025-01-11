@@ -102,114 +102,74 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Функция для добавления товара в корзину
-    function addToCart(product, quantity = 1) {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];    
-        const existingProduct = cart.find(item => item.id === product.id);
-        if (existingProduct) {
-            existingProduct.quantity += quantity;  
-            // обновляем количество товара    
-            } else {
-            product.quantity = quantity;        
-            cart.push(product);
-        }
-        localStorage.setItem('cart', JSON.stringify(cart));  
-        // сохраняем корзину в localStorage    
-        updateCartCount();  
-        // обновляем отображение количества товаров
+    // Функция для загрузки корзины текущего пользователя
+    function getUserCart() {
+        if (!currentUser) return [];
+        const userCarts = JSON.parse(localStorage.getItem('userCarts')) || {};
+        return userCarts[currentUser.username] || [];
     }
 
+    // Функция для сохранения корзины текущего пользователя
+    function saveUserCart(cart) {
+        if (!currentUser) return;
+        const userCarts = JSON.parse(localStorage.getItem('userCarts')) || {};
+        userCarts[currentUser.username] = cart;
+        localStorage.setItem('userCarts', JSON.stringify(userCarts));
+    }
+
+    // Функция для добавления товара в корзину
+    function addToCart(product, quantity = 1) {
+        if (!currentUser) {
+            alert('Войдите в аккаунт, чтобы добавить товар в корзину.');
+            return;
+        }
+        const cart = getUserCart();
+        const existingProduct = cart.find(item => item.id === product.id);
+        if (existingProduct) {
+            existingProduct.quantity += quantity;
+        } else {
+            product.quantity = quantity;
+            cart.push(product);
+        }
+        saveUserCart(cart);
+        updateCartCount();
+    }
 
     // Функция для обновления количества товаров в корзине
     function updateCartCount() {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cart = getUserCart();
         const cartCount = cart.reduce((total, product) => total + product.quantity, 0);
         document.getElementById('cart-count').textContent = cartCount;
     }
 
-    // Функция для отображения корзины
-    function updateCart() {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const cartContainer = document.getElementById('cart-container');
-        cartContainer.innerHTML = ''; // Очищаем корзину перед добавлением новых элементов
+    // Функция для обновления шапки
+    function updateHeader() {
+        const authLink = document.getElementById('auth-link');
+        const logoutBtn = document.getElementById('logout-btn');
+        const username = currentUser ? currentUser.username : 'Гость';
 
-        let totalPrice = 0;
-        cart.forEach(item => {
-            const cartItem = document.createElement('div');
-            cartItem.classList.add('cart-item');
-            cartItem.setAttribute('data-id', item.id);
-            
-            cartItem.innerHTML = `
-                <span>${item.name}</span>
-                <span>${item.quantity} x ${item.price} ₽</span>
-                <button class="remove-item">Удалить</button>
-                <button class="increase-quantity">+</button>
-                <button class="decrease-quantity">-</button>
-            `;
-            
-            cartItem.querySelector('.increase-quantity').addEventListener('click', () => updateQuantity(item.id, 1));
-            cartItem.querySelector('.decrease-quantity').addEventListener('click', () => updateQuantity(item.id, -1));
-            cartItem.querySelector('.remove-item').addEventListener('click', () => removeFromCart(item.id));
-
-            cartContainer.appendChild(cartItem);
-            totalPrice += item.price * item.quantity;
-        });
-
-        document.getElementById('total-price').textContent = `Общая сумма: ${totalPrice} ₽`;
-    }
-
-    // Функция для обновления количества товара в корзине
-    function updateQuantity(id, change) {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];    
-        const product = cart.find(item => item.id === id);
-        if (product) {
-            product.quantity += change;        
-            if (product.quantity <= 0) {
-                removeFromCart(id);        
+        if (authLink) {
+            if (currentUser) {
+                authLink.textContent = `Привет, ${username}`;
+                authLink.href = 'Authorization.html';
             } else {
-                localStorage.setItem('cart', JSON.stringify(cart));            
-                updateCart();  // обновляем корзину
-            }    
+                authLink.textContent = 'Войти';
+                authLink.href = 'Authorization.html';
+            }
         }
-    }
 
-    // Функция для удаления товара из корзины
-    function removeFromCart(id) {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const updatedCart = cart.filter(item => item.id !== id);  // удаляем товар
-
-        localStorage.setItem('cart', JSON.stringify(updatedCart));  // сохраняем обновленную корзину
-        updateCartCount();  // обновляем количество товаров в корзине
-        updateCart();  // обновляем отображение корзины
-    }
-
-    function updateHeader() { 
-        const authLink = document.getElementById('auth-link'); 
-        const logoutBtn = document.getElementById('logout-btn'); 
-        const username = currentUser ? currentUser.username : 'Гость'; // Получаем имя пользователя или 'Гость' 
-     
-        if (authLink) { 
-            if (currentUser) { 
-                authLink.textContent = `Привет, ${username}`; // Отображаем имя пользователя 
-                authLink.href = 'Authorization.html'; // Ссылка на страницу входа 
-            } else { 
-                authLink.textContent = 'Войти'; // Если не авторизован, показываем "Войти" 
-                authLink.href = 'Authorization.html'; // Ссылка на страницу входа 
-            } 
-        } 
-     
-        if (logoutBtn) { 
-            if (currentUser) { 
-                logoutBtn.style.display = 'block'; // Показываем кнопку выхода 
-                logoutBtn.addEventListener('click', function () { 
-                    localStorage.removeItem('currentUser'); 
-                    alert('Вы вышли из аккаунта'); 
-                    location.href = 'Authorization.html'; 
-                }); 
-            } else { 
-                logoutBtn.style.display = 'none'; // Скрываем кнопку выхода, если не авторизован 
-            } 
-        } 
+        if (logoutBtn) {
+            if (currentUser) {
+                logoutBtn.style.display = 'block';
+                logoutBtn.addEventListener('click', function () {
+                    localStorage.removeItem('currentUser');
+                    alert('Вы вышли из аккаунта');
+                    location.href = 'Authorization.html';
+                });
+            } else {
+                logoutBtn.style.display = 'none';
+            }
+        }
     }
     
 
@@ -269,16 +229,11 @@ document.addEventListener("DOMContentLoaded", function () {
             updateCart();
         }
     };
-    // Проверка состояния авторизации при загрузке страницы 
-    window.onload = function () { 
-        updateHeader(); // Обновляем хедер 
-    };
-
-
     // Загружаем товары при загрузке страницы
     displayProducts();
-    
-    // Инициализация корзины
+
+    // Проверка состояния авторизации при загрузке страницы
+    updateHeader();
     updateCartCount();
     updateCart();
 });

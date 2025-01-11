@@ -12,7 +12,7 @@ window.onload = function () {
         return; // Останавливаем дальнейшее выполнение
     }
 
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cart = getUserCart(); // Загружаем корзину текущего пользователя
     const cartItemsContainer = document.getElementById('cart-items');
     const cartTotal = document.getElementById('cart-total');
     const clearCartButton = document.getElementById('clear-cart'); // Кнопка для очистки корзины
@@ -52,48 +52,62 @@ window.onload = function () {
     updateHeader(); // Обновляем хедер
 };
 
+// Функция для загрузки корзины текущего пользователя
+function getUserCart() {
+    if (!currentUser) return [];
+    const userCarts = JSON.parse(localStorage.getItem('userCarts')) || {};
+    return userCarts[currentUser.username] || [];
+}
+
+// Функция для сохранения корзины текущего пользователя
+function saveUserCart(cart) {
+    if (!currentUser) return;
+    const userCarts = JSON.parse(localStorage.getItem('userCarts')) || {};
+    userCarts[currentUser.username] = cart;
+    localStorage.setItem('userCarts', JSON.stringify(userCarts));
+}
+
 // Функция для удаления товара из корзины
 function removeFromCart(productId) {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cart = getUserCart();
     const updatedCart = cart.filter(item => item.id !== productId); // Убираем товар из корзины по его id
 
-    localStorage.setItem('cart', JSON.stringify(updatedCart)); // Сохраняем обновленную корзину в localStorage
+    saveUserCart(updatedCart); // Сохраняем обновленную корзину в localStorage
     window.location.reload(); // Перезагружаем страницу, чтобы обновить корзину
 }
 
 // Функция для очистки всей корзины
 function clearCart() {
-    localStorage.removeItem('cart'); // Удаляем корзину из localStorage
+    saveUserCart([]); // Очищаем корзину текущего пользователя
     window.location.reload(); // Перезагружаем страницу, чтобы очистить корзину
 }
 
-function updateHeader() { 
-    const authLink = document.getElementById('auth-link'); 
-    const logoutBtn = document.getElementById('logout-btn'); 
-    const username = currentUser ? currentUser.username : 'Гость'; // Получаем имя пользователя или 'Гость' 
- 
-    if (authLink) { 
-        if (currentUser) { 
-            authLink.textContent = `Привет, ${username}`; // Отображаем имя пользователя 
-            authLink.href = 'Authorization.html'; // Ссылка на страницу входа 
-        } else { 
-            authLink.textContent = 'Войти'; // Если не авторизован, показываем "Войти" 
-            authLink.href = 'Authorization.html'; // Ссылка на страницу входа 
-        } 
-    } 
- 
-    if (logoutBtn) { 
-        if (currentUser) { 
-            logoutBtn.style.display = 'block'; // Показываем кнопку выхода 
-            logoutBtn.addEventListener('click', function () { 
-                localStorage.removeItem('currentUser'); 
-                alert('Вы вышли из аккаунта'); 
-                location.href = 'Authorization.html'; 
-            }); 
-        } else { 
-            logoutBtn.style.display = 'none'; // Скрываем кнопку выхода, если не авторизован 
-        } 
-    } 
+// Функция для обновления шапки
+function updateHeader() {
+    const authLink = document.getElementById('auth-link');
+    const logoutBtn = document.getElementById('logout-btn');
+    const username = currentUser ? currentUser.username : 'Гость';
+
+    if (authLink) {
+        if (currentUser) {
+            authLink.textContent = `Привет, ${username}`;
+            authLink.href = 'Authorization.html';
+        } else {
+            authLink.textContent = 'Войти';
+            authLink.href = 'Authorization.html';
+        }
+    }
+
+    if (logoutBtn) {
+        if (currentUser) {
+            logoutBtn.style.display = 'block';
+            logoutBtn.addEventListener('click', function () {
+                localStorage.removeItem('currentUser');
+                alert('Вы вышли из аккаунта');
+                location.href = 'Authorization.html';
+            });
+        } else {
+            logoutBtn.style.display = 'none';
+        }
+    }
 }
-
-

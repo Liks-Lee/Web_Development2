@@ -1,3 +1,9 @@
+// Загружаем массив пользователей из локального хранилища
+let users = JSON.parse(localStorage.getItem('users')) || [];
+
+// Загружаем текущего пользователя
+let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+
 document.addEventListener("DOMContentLoaded", function () {
     // Список товаров
     const products = [
@@ -177,6 +183,96 @@ document.addEventListener("DOMContentLoaded", function () {
         updateCart();  // обновляем отображение корзины
     }
 
+    function updateHeader() { 
+        const authLink = document.getElementById('auth-link'); 
+        const logoutBtn = document.getElementById('logout-btn'); 
+        const username = currentUser ? currentUser.username : 'Гость'; // Получаем имя пользователя или 'Гость' 
+     
+        if (authLink) { 
+            if (currentUser) { 
+                authLink.textContent = `Привет, ${username}`; // Отображаем имя пользователя 
+                authLink.href = 'Authorization.html'; // Ссылка на страницу входа 
+            } else { 
+                authLink.textContent = 'Войти'; // Если не авторизован, показываем "Войти" 
+                authLink.href = 'Authorization.html'; // Ссылка на страницу входа 
+            } 
+        } 
+     
+        if (logoutBtn) { 
+            if (currentUser) { 
+                logoutBtn.style.display = 'block'; // Показываем кнопку выхода 
+                logoutBtn.addEventListener('click', function () { 
+                    localStorage.removeItem('currentUser'); 
+                    alert('Вы вышли из аккаунта'); 
+                    location.href = 'Authorization.html'; 
+                }); 
+            } else { 
+                logoutBtn.style.display = 'none'; // Скрываем кнопку выхода, если не авторизован 
+            } 
+        } 
+    }
+    
+
+        // Регистрация
+    const registerForm = document.getElementById('registerForm');
+    if (registerForm) {
+        registerForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const newUsername = document.getElementById('new-username').value;
+            const newPassword = document.getElementById('new-password').value;
+
+            if (users.find(user => user.username === newUsername)) {
+                alert('Пользователь с таким именем уже существует!');
+                return;
+            }
+
+            users.push({ username: newUsername, password: newPassword });
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('Регистрация прошла успешно!');
+            location.href = 'Authorization.html';
+        });
+    }
+
+    // Событие авторизации
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const user = users.find(u => u.username === username && u.password === password);
+            if (user) {
+                alert('Вы успешно вошли в систему!');
+                localStorage.setItem('currentUser', JSON.stringify(user)); // Сохраняем текущего пользователя
+                location.href = 'index.html';
+            } else {
+                alert('Неверный логин или пароль');
+            }
+        });
+    }
+
+    // Событие выхода из аккаунта
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function () {
+            localStorage.removeItem('currentUser');
+            alert('Вы вышли из аккаунта');
+            location.href = 'Authorization.html';
+        });
+    }
+    // Проверка состояния авторизации при загрузке страницы
+    window.onload = function () {
+        updateHeader();
+        updateCartCount(); // Обновляем счетчик корзины
+        if (currentUser) {
+            updateCart();
+        }
+    };
+    // Проверка состояния авторизации при загрузке страницы 
+    window.onload = function () { 
+        updateHeader(); // Обновляем хедер 
+    };
 
 
     // Загружаем товары при загрузке страницы

@@ -3,11 +3,13 @@ html, body {
     margin: 0;
     display: flex;
     flex-direction: column;
+    font-family: "Nerko One"
 }
 
 main {
     flex: 1; /* Заставляет main занимать всё доступное пространство между header и footer */
     padding: 20px; /* Чтобы добавить немного отступов */
+    font-family: "Nerko One"
 }
 
 footer {
@@ -16,27 +18,32 @@ footer {
     text-align: center;
     padding: 10px 0;
     margin-top: auto; /* Автоматически смещает футер вниз */
+    font-family: "Nerko One"
 }
 
 #active {
     color: tomato;
+    font-family: "Nerko One"
 }
 
 header {
     background-color: #ffb25a;
     color: white;
     padding: 10px 20px;
+    font-family: "Nerko One"
 }
 
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-family: "Nerko One"
 }
 
 .navbar ul {
     list-style: none;
     display: flex;
+    font-family: "Nerko One";
     gap: 15px;
     margin: 0;
     padding: 0;
@@ -46,6 +53,7 @@ header {
     color: white;
     text-decoration: none;
     padding: 5px 10px;
+    font-family: "Nerko One"
 }
 
 .navbar a:hover {
@@ -55,6 +63,7 @@ header {
 
 .hero {
     text-align: center;
+    font-family: "Nerko One";
     background-color: #f4f4f4;
     padding: 50px 20px;
 }
@@ -63,6 +72,7 @@ header {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Автоматическая подгонка колонок по ширине экрана */
     gap: 60px;
+    font-family: "Nerko One"
 }
 
 .product-card {
@@ -70,6 +80,7 @@ header {
     padding: 10px;
     text-align: center;
     transition: transform 0.3s ease, border-width 0.3s ease; /* Плавное изменение трансформации и границы */
+    font-family: "Nerko One"
 }
 
 .product-card:hover {
@@ -138,11 +149,13 @@ header {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
+    font-family: "Nerko One"
 }
 
 .modal:not(.hidden) {
     opacity: 1;
     pointer-events: auto;
+    font-family: "Nerko One"
 }
 
 .modal-content {
@@ -155,6 +168,7 @@ header {
     text-align: center;
     position: relative;
     overflow: hidden;
+    font-family: "Nerko One"
 }
 
 #modal-image {
@@ -176,6 +190,7 @@ header {
     color: #333;
     cursor: pointer;
     transition: color 0.2s ease;
+    font-family: "Nerko One"
 }
 
 .close-button:hover {
@@ -186,6 +201,7 @@ header {
     margin-top: 20px;
     font-size: 14px;
     color: #555;
+    font-family: "Nerko One"
 }
 
 #modal-quantity {
@@ -194,6 +210,7 @@ header {
     align-items: center;
     gap: 15px;
     margin-bottom: 15px;
+    font-family: "Nerko One"
 }
 
 #decrease-quantity, #increase-quantity {
@@ -204,6 +221,7 @@ header {
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
+    font-family: "Nerko One";
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
@@ -211,6 +229,7 @@ header {
     background-color: white;
     color: #ffb25a;
     border-color: #ffb25a;
+    font-family: "Nerko One"
 }
 
 #add-to-cart-modal {
@@ -223,16 +242,19 @@ header {
     border-radius: 5px;
     padding: 10px 20px;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.1s;
+    font-family: "Nerko One"
 }
 
 #add-to-cart-modal:hover {
     background-color: white;
     color: #ffb25a;
     border-color: #ffb25a;
+    font-family: "Nerko One"
 }
 
 #add-to-cart-modal:active {
     transform: scale(0.95);
+    font-family: "Nerko One"
 }
 
 /* Стили для логотипа */
@@ -240,6 +262,7 @@ header {
     display: flex; /* Используем flexbox для выравнивания */
     align-items: center; /* Вертикальное выравнивание */
     gap: 10px; /* Промежуток между изображением и текстом */
+    font-family: "Nerko One"
 }
 
 .logo-image {

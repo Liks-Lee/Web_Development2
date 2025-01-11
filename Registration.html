@@ -1,5 +1,5 @@
-<!-- Authorization.html -->
-<!DOCTYPE html>
+<!-- Registration.html -->
+<!DOCTYPE html> 
 <html lang="ru"> 
 <head> 
     <meta charset="UTF-8"> 
@@ -9,14 +9,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
-    <style>
-        main {
+    <style>        
+        main, section {
             display: flex;
-            justify-content: center; /* Центрирование по горизонтали */
-            align-items: center; /* Центрирование по вертикали */
-            margin: 0; /* Убираем отступы по умолчанию */
+            justify-content: center;
+            align-items: center;
+            margin: 0;
             flex-direction: column;
+            width: 100%; /* Устанавливаем одинаковую ширину */
+            box-sizing: border-box; /* Учет границ и полей */
         }
+
         .auth-container {
             display: flex;
             flex-direction: column;
@@ -61,18 +64,6 @@
             background-color: #FF4500; /* Более темный рыжий при наведении */
         }
 
-        .forgot-password {
-            margin-top: 10px;
-        }
-
-        section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-            flex-direction: column;
-        }
-
     </style>
 </head> 
 <body> 
@@ -94,23 +85,21 @@
     <main>
         <section>
             <div class="auth-container">
-                <h2>Авторизация</h2>
-                <!-- Форма авторизации -->
-                <form action="login_action.html" method="POST" id="login-form">
+                <h2>Регистрация</h2>
+                <!-- Форма регистрации -->
+                <form id="registerForm" class="auth-form" style="display: block;">
                     <div>
-                        <label for="username">Имя пользователя:</label>
-                        <input type="text" id="username" name="username" placeholder="Введите имя пользователя" required>
+                        <label for="new-username">Имя пользователя:</label>
+                        <input type="text" id="new-username" name="new-username" placeholder="Введите имя пользователя" required>
                     </div>
-                    
                     <div>
-                        <label for="password">Пароль:</label>
-                        <input type="password" id="password" name="password" placeholder="Введите пароль" required>
+                        <label for="new-password">Пароль:</label>
+                        <input type="password" id="new-password" name="new-password" placeholder="Введите пароль" required>
                     </div>
-                    
-                    <button type="submit" class="btn">Войти</button>
-                    <p>Нет аккаунта? <a href="Registration.html">Зарегистрироваться</a></p>
+
+                    <button type="submit" class="btn">Зарегистрироваться</button>
+                    <p>Уже есть аккаунт? <a href="Authorization.html">Войти</a></p>
                 </form>
-                <button id="logout-btn" style="display: none; display: block;">Выйти</button>
             </div>
         </section>
     </main> 

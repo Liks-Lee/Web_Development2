@@ -4,21 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Корзина - Morax World</title>
+    <title>Корзина - Genshin World</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <nav class="navbar">
             <div class="logo">
-                <img src="images/logo.png" alt="Логотип Morax World" class="logo-image">
-                Morax World
+                <img src="images/logo.png" alt="Логотип Genshin World" class="logo-image">
+                Genshin World
             </div>
             <ul>
                 <li><a href="index.html">Главная</a></li>
                 <li><a href="shop.html">Магазин</a></li>
                 <li><a href="cart.html" id="active">Корзина</a></li>
-                <li><a href="Authorization.html">Авторизация </a></li> 
+                <li><a href="Authorization.html" id="auth-link"> Войти</a></li> 
             </ul>
         </nav>
     </header>
@@ -26,7 +29,7 @@
     <main>
         <h1>Корзина</h1>
         <div id="cart-items">
-            <p>Ваша корзина пуста</p>
+            <p>Ваша корзина пуста.</p>
         </div>
         <button class="add-to-cart" id="clear-cart">Очистить корзину</button>
         <p id="cart-total"></p>

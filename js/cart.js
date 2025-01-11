@@ -1,4 +1,17 @@
+// Загружаем массив пользователей из локального хранилища
+let users = JSON.parse(localStorage.getItem('users')) || [];
+
+// Загружаем текущего пользователя
+let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+
 window.onload = function () {
+    // Проверяем авторизацию
+    if (!currentUser) {
+        alert('Вы должны войти в аккаунт, чтобы получить доступ к корзине.');
+        location.href = 'Authorization.html'; // Перенаправляем на страницу авторизации
+        return; // Останавливаем дальнейшее выполнение
+    }
+
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const cartItemsContainer = document.getElementById('cart-items');
     const cartTotal = document.getElementById('cart-total');
@@ -22,8 +35,7 @@ window.onload = function () {
             productElement.classList.add('cart-item');
             productElement.innerHTML = `
                 <span>${product.name} - ${product.price} ₽ x ${product.quantity}</span>
-                <button class="remove-item" data-index="${index}">Удалить</button>
-            `;
+                <button class="remove-item" data-index="${index}">Удалить</button>`;
 
             // Слушаем кнопку удаления товара
             const removeButton = productElement.querySelector('.remove-item');
@@ -37,6 +49,7 @@ window.onload = function () {
 
         cartTotal.textContent = `Общая стоимость: ${total} ₽`;
     }
+    updateHeader(); // Обновляем хедер
 };
 
 // Функция для удаления товара из корзины
@@ -53,3 +66,34 @@ function clearCart() {
     localStorage.removeItem('cart'); // Удаляем корзину из localStorage
     window.location.reload(); // Перезагружаем страницу, чтобы очистить корзину
 }
+
+function updateHeader() { 
+    const authLink = document.getElementById('auth-link'); 
+    const logoutBtn = document.getElementById('logout-btn'); 
+    const username = currentUser ? currentUser.username : 'Гость'; // Получаем имя пользователя или 'Гость' 
+ 
+    if (authLink) { 
+        if (currentUser) { 
+            authLink.textContent = `Привет, ${username}`; // Отображаем имя пользователя 
+            authLink.href = 'Authorization.html'; // Ссылка на страницу входа 
+        } else { 
+            authLink.textContent = 'Войти'; // Если не авторизован, показываем "Войти" 
+            authLink.href = 'Authorization.html'; // Ссылка на страницу входа 
+        } 
+    } 
+ 
+    if (logoutBtn) { 
+        if (currentUser) { 
+            logoutBtn.style.display = 'block'; // Показываем кнопку выхода 
+            logoutBtn.addEventListener('click', function () { 
+                localStorage.removeItem('currentUser'); 
+                alert('Вы вышли из аккаунта'); 
+                location.href = 'Authorization.html'; 
+            }); 
+        } else { 
+            logoutBtn.style.display = 'none'; // Скрываем кнопку выхода, если не авторизован 
+        } 
+    } 
+}
+
+

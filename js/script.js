@@ -214,7 +214,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const email = document.getElementById('contact-email').value;
             const message = document.getElementById('contact-message').value;
             alert(`Сообщение отправлено!\n\nИмя: ${name}\nEmail: ${email}\nСообщение: ${message}`);
-            // Здесь можно добавить логику для отправки данных на сервер или сохранения в локальном хранилище
         });
     }
 

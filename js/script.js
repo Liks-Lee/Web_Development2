@@ -201,10 +201,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Показываем форму обратной связи, если пользователь авторизован
     const contactFormContainer = document.getElementById('contact-form-container');
-    if (currentUser) {
+    if (contactFormContainer && currentUser) {
         contactFormContainer.classList.remove('hidden');
     }
-    
+
     // Обработчик отправки формы обратной связи
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {

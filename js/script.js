@@ -33,8 +33,19 @@ document.addEventListener("DOMContentLoaded", function () {
             price: 1500,
             image: 'images/product3.jpg',
             quantityAvailable: 10 // Количество в наличии
-        }
+        },
+        {
+            id: 4,
+            name: 'Товар 4',
+            description: 'Funko pop 4.',
+            fullDescription: 'Это расширенное описание Funko pop 4. Тут рассказывается о характеристиках и преимуществах.',
+            price: 1500,
+            image: 'images/product4.jpg',
+            quantityAvailable:0 // Количество в наличии
+        },
     ];
+
+    console.log(products);
 
     // Функция для отображения товаров
     function displayProducts() {

@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
         {
             id: 1,
             name: 'Товар 1',
-            description: 'Описание товара 1.',
-            fullDescription: 'Это расширенное описание товара один. Тут рассказывается о характеристиках и преимуществах.',
+            description: 'Funko pop 1.',
+            fullDescription: 'Это расширенное описание Funko pop 1. Тут рассказывается о характеристиках и преимуществах.',
             price: 1500,
             image: 'images/product1.jpg',
             quantityAvailable: 10 // Количество в наличии
@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
         {
             id: 2,
             name: 'Товар 2',
-            description: 'Описание товара 2.',
-            fullDescription: 'Это расширенное описание товара два. Тут рассказывается о характеристиках и преимуществах.',
+            description: 'Funko pop 2.',
+            fullDescription: 'Это расширенное описание Funko pop 2. Тут рассказывается о характеристиках и преимуществах.',
             price: 1500,
             image: 'images/product2.jpg',
             quantityAvailable: 15 // Количество в наличии
@@ -28,8 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
         {
             id: 3,
             name: 'Товар 3',
-            description: 'Описание товара 3.',
-            fullDescription: 'Это расширенное описание товара три. Тут рассказывается о характеристиках и преимуществах.',
+            description: 'Funko pop 3.',
+            fullDescription: 'Это расширенное описание Funko pop 3. Тут рассказывается о характеристиках и преимуществах.',
             price: 1500,
             image: 'images/product3.jpg',
             quantityAvailable: 10 // Количество в наличии
